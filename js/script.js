@@ -4,6 +4,11 @@ document.addEventListener("DOMContentLoaded", function () {
 	var fileNameDisplay = document.getElementById("file-name")
 	var uploadButton = document.getElementById("upload-button")
 	var loadingSpinner = document.getElementById("loading-container")
+	const uploadSound = document.getElementById("upload-sound")
+
+	function playSound() {
+		uploadSound.play()
+	}
 
 	uploadButton.addEventListener("click", function () {
 		fileInput.click() // Trigger the file input when button is clicked
@@ -11,6 +16,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	// Event listener for file selection
 	fileInput.addEventListener("change", function () {
+		if (fileInput.files.length > 0) {
+			playSound()
+		}
 		var file = fileInput.files[0]
 		if (file) {
 			var reader = new FileReader()
@@ -18,9 +26,10 @@ document.addEventListener("DOMContentLoaded", function () {
 				loadingSpinner.style.display = "block"
 				setTimeout(function () {
 					localStorage.setItem("uploadedImage", e.target.result) // Store the image data URL in localStorage
+					// Redirect to the result page
 					loadingSpinner.style.display = "none"
-					window.location.href = "result.html" // Redirect to the result page
-				}, 5000)
+					window.location.href = "result.html"
+				}, 1000)
 			}
 			reader.readAsDataURL(file) // Read the file as a Data URL
 		}
@@ -47,12 +56,14 @@ document.addEventListener("DOMContentLoaded", function () {
 	// Function to handle dropped files
 	function handleDrop(e) {
 		preventDefaults(e)
+		playSound()
 		var dt = e.dataTransfer
 		var files = dt.files
 
 		// Assign dropped files to the file input
 		fileInput.files = files
 		updateFileName()
+		window.location.href = "result.html"
 		uploadImage() // Automatically upload the image when dropped
 	}
 

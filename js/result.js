@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
 	var imageElement = document.getElementById("uploaded-image")
 	var imageDataUrl = localStorage.getItem("uploadedImage")
+	var toggleSound = document.getElementById("toggle-sound")
 
 	if (imageDataUrl) {
 		imageElement.src = imageDataUrl
@@ -78,10 +79,12 @@ document.addEventListener("DOMContentLoaded", function () {
 					recipeInfo.style.display = "block"
 					nutritionInfo.style.display = "none"
 					this.textContent = "Hide Recipe"
+					toggleSound.play()
 				} else {
 					recipeInfo.style.display = "none"
 					nutritionInfo.style.display = "block"
 					this.textContent = "Show Recipe"
+					toggleSound.play()
 				}
 			})
 	}
